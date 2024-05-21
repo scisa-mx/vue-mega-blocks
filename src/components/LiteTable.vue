@@ -4,7 +4,10 @@
     :filters="props.filters"
   ></FilterContainer>
   <div class="overflow-x-auto overflow-y-hidden">
-    <table class="table table-hover table-striped">
+    <table
+      class="table"
+      :class="props.striped ? 'table-hover table-striped' : ''"
+    >
       <thead>
         <tr>
           <th

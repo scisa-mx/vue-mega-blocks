@@ -1,22 +1,25 @@
 <template>
-  <div class="col-3">
+  <div class="col">
     <div class="custom-datalist-container">
-      <template v-if="props.label">
-        <label class="ml-3 my-2 fw-semibold" :for="localID">{{
-          props.label
-        }}</label>
-      </template>
-      <input
-        type="search"
-        class="form-control"
-        :id="localID"
-        v-model="selectedOption"
-        @input="filterOptions"
-        @focus="isFocused = true"
-        @blur="isFocused = false"
-        @search="handleSearch"
-      />
-      <div v-show="isFocused" class="custom-datalist w-100 bg-dark">
+      <div :class="props.label ? 'form-floating' : ''">
+        <input
+          type="search"
+          class="form-control"
+          :id="localID"
+          v-model="selectedOption"
+          @input="filterOptions"
+          @focus="isFocused = true"
+          @blur="isFocused = false"
+          @search="handleSearch"
+        />
+        <template v-if="props.label">
+          <label class="ml-3" :for="localID">{{ props.label }}</label>
+        </template>
+      </div>
+      <div
+        v-show="isFocused"
+        class="custom-datalist w-100 bg-dark"
+      >
         <div
           v-if="filteredOptions.length > 0"
           v-for="opt in filteredOptions"
@@ -26,8 +29,11 @@
         >
           {{ opt.text }}
         </div>
-        <div v-else class="option">
-          Not Found
+        <div
+          v-else
+          class="option"
+        >
+          {{ $t("notFoundResults") }}
         </div>
       </div>
     </div>
@@ -35,8 +41,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-import { ItemSelect } from "./types";
+import { ref, defineProps, defineEmits } from "vue";
+
+interface Option {
+  text: string;
+  value?: string | number;
+}
 
 interface Filter {
   filter: string;
@@ -44,17 +54,18 @@ interface Filter {
 
 const emit = defineEmits();
 const props = defineProps<{
-  options: ItemSelect[];
-  modelValue: object;
+  options: Option[];
+  modelValue: {
+    type: string;
+  };
   filter?: Filter;
   label?: string;
-  identifier: string;
 }>();
 
 const localID = `s-selector-${crypto.randomUUID()}`;
 const selectedOption = ref<string>("");
 const selectOptions = props.options;
-const filteredOptions = ref<ItemSelect[]>(selectOptions);
+const filteredOptions = ref<Option[]>(selectOptions);
 const isFocused = ref<boolean>(false);
 
 const filterOptions = () => {
@@ -64,7 +75,7 @@ const filterOptions = () => {
   );
 };
 
-const selectOption = (option: ItemSelect) => {
+const selectOption = (option: Option) => {
   selectedOption.value = option.text;
   filteredOptions.value = [];
   if (props.filter && props.filter.filter === "value") {
@@ -75,7 +86,7 @@ const selectOption = (option: ItemSelect) => {
     emit("update:modelValue", option.text);
     return;
   }
-  emit("update:modelValue", { value: option.value, key: props.identifier });
+  emit("update:modelValue", option);
 };
 
 const handleSearch = () => {

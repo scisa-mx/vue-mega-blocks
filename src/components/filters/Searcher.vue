@@ -19,7 +19,7 @@ const emit = defineEmits();
 const query = ref<string>("");
 
 const debounce = (fn: Function, delay: number) => {
-  let timeoutId: NodeJS.Timeout;
+  let timeoutId: any;
   return (...args: any[]) => {
     clearTimeout(timeoutId);
     timeoutId = setTimeout(() => {

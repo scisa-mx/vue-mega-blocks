@@ -22,6 +22,7 @@ export interface LiteTable {
   items?: Array<any>;
   pagination: InternalPagination;
   filters?: Filter[];
+  striped: boolean;
 }
 
 
