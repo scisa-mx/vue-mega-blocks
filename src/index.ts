@@ -13,6 +13,8 @@ import SUnderTabs from "./components/ScsiaComponents/SUnderTabs.vue";
 import SSearcher from "./components/ScsiaComponents/SSearcher.vue";
 import SSelector from "./components/ScsiaComponents/SSelector.vue";
 
+import './styles/styles.css'
+
 export {
   LiteTable,
   SButtonCheck,

@@ -1,0 +1,32 @@
+@import "./variables.css";
+
+.btn.btn-outline-primary {
+  color: var(--secondary-color);
+  border-color: var(--secondary-color);
+  z-index: 0 !important;
+}
+
+input:checked + .btn {
+  color: var(--main-color);
+  background-color: rgba(240, 129, 37, 0.1);
+  border-color: var(--main-color);
+}
+
+
+
+.scisa-input-mui {
+  border: none;
+  border-bottom: 1px solid #555;
+  background-color: transparent;
+  min-width: 20rem;
+  min-height: 3rem;
+}
+
+.scisa-input-mui:focus {
+  box-shadow: #f08125;
+}
+
+.separator-button:hover {
+  background-color: rgba(240, 129, 37, 0.15);
+  transition: 0.3s;
+}

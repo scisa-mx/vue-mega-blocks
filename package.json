@@ -1,7 +1,7 @@
 {
-  "name": "vue-mega-blocks",
+  "name": "example-mega-blocks",
   "private": false,
-  "version": "0.1.0",
+  "version": "0.2.0",
   "type": "module",
   "files": [
     "dist"
@@ -20,6 +20,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@popperjs/core": "^2.11.8",
+    "v-calendar": "^3.1.2",
     "vite-plugin-dts": "^3.9.1",
     "vue": "^3.4.21"
   },
