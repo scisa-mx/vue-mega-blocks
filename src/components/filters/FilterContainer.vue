@@ -38,16 +38,10 @@ import DatePicker from "./DatePicker.vue";
 import DateRange from "./DateRange.vue";
 import Searcher from "./Searcher.vue";
 
-interface FiltersContainer {
-  filters: Filter[] | undefined;
-}
-
-interface DataFilter {
-  [key: string]: { value: any; key: string };
-}
+import { FiltersContainer, DataFilterContainer } from "./types";
 
 const props = defineProps<FiltersContainer>();
-const dataFilter = ref<DataFilter>({});
+const dataFilter = ref<DataFilterContainer>({});
 
 const emit = defineEmits<{
   data: [item: any];

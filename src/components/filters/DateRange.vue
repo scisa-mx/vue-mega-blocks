@@ -25,11 +25,7 @@
 
 <script setup lang="ts">
 import { ref, watch } from "vue";
-
-interface DateRange {
-  label: string;
-  identifier: string;
-}
+import { DateRange } from "./types";
 
 const props = defineProps<DateRange>();
 const emit = defineEmits();

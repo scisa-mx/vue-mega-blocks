@@ -7,12 +7,8 @@
 
 <script setup lang="ts">
 import { ref, watch } from "vue";
+import { Searcher } from "./types";
 
-interface Searcher {
-  label: string;
-  identifier: string;
-  size?: number;
-}
 
 const props = defineProps<Searcher>();
 const emit = defineEmits();

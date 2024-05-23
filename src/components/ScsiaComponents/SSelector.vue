@@ -16,10 +16,7 @@
           <label class="ml-3" :for="localID">{{ props.label }}</label>
         </template>
       </div>
-      <div
-        v-show="isFocused"
-        class="custom-datalist w-100 bg-dark"
-      >
+      <div v-show="isFocused" class="custom-datalist w-100 bg-dark">
         <div
           v-if="filteredOptions.length > 0"
           v-for="opt in filteredOptions"
@@ -29,12 +26,7 @@
         >
           {{ opt.text }}
         </div>
-        <div
-          v-else
-          class="option"
-        >
-          {{ $t("notFoundResults") }}
-        </div>
+        <div v-else class="option">notFoundResults</div>
       </div>
     </div>
   </div>
@@ -42,15 +34,7 @@
 
 <script setup lang="ts">
 import { ref, defineProps, defineEmits } from "vue";
-
-interface Option {
-  text: string;
-  value?: string | number;
-}
-
-interface Filter {
-  filter: string;
-}
+import { Option, Filter } from "../../types";
 
 const emit = defineEmits();
 const props = defineProps<{
@@ -71,7 +55,7 @@ const isFocused = ref<boolean>(false);
 const filterOptions = () => {
   const filterText = selectedOption.value.toLowerCase();
   filteredOptions.value = selectOptions.filter((org) =>
-    org.text.toLowerCase().includes(filterText),
+    org.text.toLowerCase().includes(filterText)
   );
 };
 

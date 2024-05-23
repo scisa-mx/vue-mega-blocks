@@ -21,12 +21,8 @@
 
 <script setup lang="ts">
 import { ref, watch, toRaw } from "vue";
+import { DatePicker } from "./types";
 
-interface DatePicker {
-  label: string;
-  modelValue: any;
-  identifier: string;
-}
 const emit = defineEmits();
 
 const props = defineProps<DatePicker>();
