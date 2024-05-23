@@ -19,16 +19,10 @@
 
 <script setup lang="ts">
 import { ref, watch } from "vue";
-
-interface UnderTabs {
-  tabs: { label: string; slotName: string }[];
-  initialTab?: number;
-  hideTabs?: boolean;
-  activeTab?: number;
-}
+import { UnderTabs } from "../../types";
 
 const props = defineProps<UnderTabs>();
-const activeTab = ref<number | undefined>(props.initialTab || 0);
+const activeTab = ref<number>(props.initialTab || 0);
 
 const changeTab = (index: number) => {
   activeTab.value = index;

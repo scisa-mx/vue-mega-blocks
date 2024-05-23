@@ -12,7 +12,7 @@
     </div>
     <transition name="fade">
       <div class="tab-content" v-if="tabs.length > 0">
-        <slot :name="tabs[activeTab].slotName"></slot>
+        <slot :name="tabs[activeTab ?? 0].slotName"></slot>
       </div>
     </transition>
   </div>
@@ -39,9 +39,10 @@ if (props.activeTab !== undefined) {
   watch(
     () => props.activeTab,
     (newValue) => {
-      if (newValue)
+      if (newValue !== undefined && newValue !== null) {
         activeTab.value = findTabIndexByActiveTab(newValue.toString());
-    },
+      }
+    }
   );
 }
 

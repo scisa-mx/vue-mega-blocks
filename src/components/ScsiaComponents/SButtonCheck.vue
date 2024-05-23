@@ -1,16 +1,12 @@
 <template>
-  <div
-    class="btn-group w-100"
-    role="group"
-    aria-label="Scisa check button"
-  >
+  <div class="btn-group w-100" role="group" aria-label="Scisa check button">
     <input
       type="checkbox"
       class="btn-check w-100"
       :id="id"
       autocomplete="off"
       :checked="props.modelValue"
-      @change="$emit('update:modelValue', $event.target.checked)"
+      @change="handlerEmit"
     />
     <label
       style="min-height: 50px"
@@ -26,6 +22,7 @@
 import { defineProps } from "vue";
 
 // Define la prop modelValue para recibir la referencia
+const emit = defineEmits(["update:modelValue"]);
 const props = defineProps({
   modelValue: {
     type: Boolean,
@@ -33,8 +30,14 @@ const props = defineProps({
   },
 });
 
-const id = `s-button-check-${crypto.randomUUID()}`
+const id = `s-button-check-${crypto.randomUUID()}`;
 
+const handlerEmit = (event: Event) => {
+  const target = event.target as HTMLInputElement | null;
+  if (target) {
+    emit("update:modelValue", target.checked);
+  }
+};
 </script>
 
 <style scoped>

@@ -7,6 +7,13 @@ export interface Filter {
   filter: string;
 }
 
+export interface UnderTabs {
+  tabs: { label: string; slotName: string }[];
+  initialTab?: number;
+  hideTabs?: boolean;
+  activeTab?: number;
+}
+
 export interface InternalPagination {
   totalPages: number;
   currentPage: number;
