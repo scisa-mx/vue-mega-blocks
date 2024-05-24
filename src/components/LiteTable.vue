@@ -12,7 +12,10 @@
     v-model="pagination"
   ></s-pagination>
   <div class="overflow-x-auto overflow-y-hidden">
-    <table class="table table-hover table-striped">
+    <table
+      class="table table-hover"
+      :class="props.striped ? 'table-striped' : ''"
+    >
       <thead>
         <tr>
           <th
@@ -75,7 +78,7 @@
 <script setup lang="ts">
 import { ref, onMounted, watch } from "vue";
 import SPagination from "./ScsiaComponents/SPagination.vue";
-import FilterContainer from "@/components/filters/FilterContainer.vue";
+import FilterContainer from "../components/filters/FilterContainer.vue";
 
 import { InternalHeader, LiteTable } from "../types";
 
