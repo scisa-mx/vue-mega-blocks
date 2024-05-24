@@ -1,5 +1,5 @@
 <template>
-  <div class="input-group">
+  <div class="input-group input-searcher-scisa">
     <span class="input-group-text">
       <i class="bi bi-search"></i>
     </span>

@@ -39,6 +39,8 @@ export interface LiteTable {
   pagination: InternalPagination;
   filters?: Filter[];
   striped: boolean;
+  typeOfPagination: "upper" | "lower"
+  notFoundMsg: string;
 }
 
 
