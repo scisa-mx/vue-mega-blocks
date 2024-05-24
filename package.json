@@ -1,7 +1,7 @@
 {
   "name": "example-mega-blocks",
   "private": false,
-  "version": "0.2.1",
+  "version": "0.2.6",
   "type": "module",
   "types": "dist/index.d.ts",
   "style": "src/styles/styles.css",
