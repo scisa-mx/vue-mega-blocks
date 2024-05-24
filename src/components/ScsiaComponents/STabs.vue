@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="tabs-scisa">
     <div v-if="!hideTabs" class="tabs">
       <div
         v-for="(tab, index) in tabs"

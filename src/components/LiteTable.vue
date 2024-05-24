@@ -3,11 +3,16 @@
     @data="handlerFilters"
     :filters="props.filters"
   ></FilterContainer>
+  <s-pagination
+    v-if="positionPagination.upper"
+    :totalPages="props.pagination.totalPages"
+    :currentPage="pagination.currentPage"
+    :nextPage="pagination.nextPage"
+    :previousPage="pagination.previousPage"
+    v-model="pagination"
+  ></s-pagination>
   <div class="overflow-x-auto overflow-y-hidden">
-    <table
-      class="table"
-      :class="props.striped ? 'table-hover table-striped' : ''"
-    >
+    <table class="table table-hover table-striped">
       <thead>
         <tr>
           <th
@@ -51,12 +56,13 @@
         </tr>
         <tr v-if="props.items?.length == 0">
           <td :colspan="headers.length">
-            <span>Not found results</span>
+            {{ props.notFoundMsg }}
           </td>
         </tr>
       </tbody>
     </table>
     <s-pagination
+      v-if="positionPagination.lower"
       :totalPages="props.pagination.totalPages"
       :currentPage="pagination.currentPage"
       :nextPage="pagination.nextPage"
@@ -68,10 +74,16 @@
 
 <script setup lang="ts">
 import { ref, onMounted, watch } from "vue";
-import SPagination from "./SPagination.vue";
-import FilterContainer from "./filters/FilterContainer.vue";
+import SPagination from "./ScsiaComponents/SPagination.vue";
+import FilterContainer from "@/components/filters/FilterContainer.vue";
 
-import { InternalHeader, LiteTable } from "./filters/types";
+import { InternalHeader, LiteTable } from "../types";
+
+const positionPagination = ref({
+  upper: false,
+  lower: true,
+  both: false,
+});
 
 const emit = defineEmits<{
   "row-clicked": [item: any, index: number, event: MouseEvent];
@@ -91,6 +103,18 @@ const pagination = ref({
   nextPage: 2,
   previousPage: 1,
 });
+
+const handlerPositionPagination = () => {
+  switch (props.typeOfPagination) {
+    case "lower":
+      positionPagination.value.lower = true;
+      break;
+    case "upper":
+      positionPagination.value.upper = true;
+      positionPagination.value.lower = false;
+      break;
+  }
+};
 
 const handlerSort = (item: InternalHeader): void => {
   const result: { [key: string]: string } = {};
@@ -143,6 +167,7 @@ const actionCallback = async () => {
 onMounted(() => {
   stablishHeaders();
   stablshFitlers();
+  handlerPositionPagination();
 });
 
 watch(

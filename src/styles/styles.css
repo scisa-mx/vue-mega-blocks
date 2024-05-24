@@ -1,32 +1,58 @@
-@import "./variables.css";
+:root {
+  --btn-outline-color: #9397a1;
+  --checked-btn-color: #f08125;
+  --checked-btn-bg-color: rgba(240, 129, 37, 0.1);
+  --checked-btn-border-color: #f08125;
+}
 
-.btn.btn-outline-primary {
-  color: var(--secondary-color);
-  border-color: var(--secondary-color);
+.btn-s-button-check.btn-outline-primary {
+  color: var(--btn-outline-color);
+  border-color: var(--btn-outline-color);
   z-index: 0 !important;
 }
 
-input:checked + .btn {
-  color: var(--main-color);
-  background-color: rgba(240, 129, 37, 0.1);
-  border-color: var(--main-color);
+input:checked + .btn-s-button-check.btn-outline-primary {
+  color: var(--checked-btn-color);
+  background-color: var(--checked-btn-bg-color);
+  border-color: var(--checked-btn-border-color);
 }
 
-
-
-.scisa-input-mui {
-  border: none;
-  border-bottom: 1px solid #555;
-  background-color: transparent;
-  min-width: 20rem;
-  min-height: 3rem;
+.s-pagination {
+  background-color: transparent !important;
 }
 
-.scisa-input-mui:focus {
-  box-shadow: #f08125;
+.s-pagination-list,
+.s-pagination > ol,
+.s-pagination > ol > li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  box-shadow: none;
+  color: white;
 }
 
-.separator-button:hover {
-  background-color: rgba(240, 129, 37, 0.15);
-  transition: 0.3s;
+.s-pagination > ol {
+  display: flex;
+}
+
+.s-pagination > ol > li {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+}
+
+.s-pagination > ol > li:hover {
+  background-color: rgba(240, 129, 37, 1);
+}
+
+.item-pagination {
+  margin-right: 5px;
+  margin-left: 5px;
+}
+
+.item-pagination-active {
+  background-color: rgba(240, 129, 37, 1);
 }

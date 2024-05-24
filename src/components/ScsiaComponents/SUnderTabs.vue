@@ -1,5 +1,5 @@
 <template>
-  <nav class="s-under-tabs">
+  <nav class="s-under-tabs under-tabs-scisa">
       <div class="tabs">
         <div
           class="item-under-tab"

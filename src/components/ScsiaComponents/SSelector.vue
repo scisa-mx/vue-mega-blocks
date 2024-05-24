@@ -1,5 +1,5 @@
 <template>
-  <div class="col">
+  <div class="col selector-scisa">
     <div class="custom-datalist-container">
       <div :class="props.label ? 'form-floating' : ''">
         <input

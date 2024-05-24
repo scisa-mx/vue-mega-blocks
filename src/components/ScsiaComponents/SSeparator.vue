@@ -1,5 +1,5 @@
 <template>
-  <div class="mb-2">
+  <div class="mb-2 separator-scisa">
     <h3 class="p-0 mb-0">{{ props.label }}</h3>
     <div class="d-flex align-items-center justify-content-center m-0">
       <hr class="w-100 my-1" />
