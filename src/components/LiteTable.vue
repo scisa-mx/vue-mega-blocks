@@ -91,16 +91,16 @@ const positionPagination = ref({
 const handlerPositionPagination = () => {
   switch (props.typeOfPagination) {
     case "lower":
-      positionPagination.lower = true;
-      positionPagination.upper = false;
+      positionPagination.value.lower = true;
+      positionPagination.value.upper = false;
       break;
     case "upper":
-      positionPagination.upper = true;
-      positionPagination.lower = false;
+      positionPagination.value.upper = true;
+      positionPagination.value.lower = false;
       break;
     case "both":
-      positionPagination.upper = true;
-      positionPagination.lower = true;
+      positionPagination.value.upper = true;
+      positionPagination.value.lower = true;
       break;
   }
 };
