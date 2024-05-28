@@ -4,7 +4,7 @@
     :filters="props.filters"
   ></FilterContainer>
   <s-pagination
-    v-if="positionPagination.upper"
+    v-if="positionPagination.upper || positionPagination.both "
     :totalPages="props.pagination.totalPages"
     :currentPage="pagination.currentPage"
     :nextPage="pagination.nextPage"
@@ -65,7 +65,7 @@
       </tbody>
     </table>
     <s-pagination
-      v-if="positionPagination.lower"
+      v-if="positionPagination.lower || positionPagination.both "
       :totalPages="props.pagination.totalPages"
       :currentPage="pagination.currentPage"
       :nextPage="pagination.nextPage"
@@ -88,6 +88,23 @@ const positionPagination = ref({
   both: false,
 });
 
+const handlerPositionPagination = () => {
+  switch (props.typeOfPagination) {
+    case "lower":
+      positionPagination.lower = true;
+      positionPagination.upper = false;
+      break;
+    case "upper":
+      positionPagination.upper = true;
+      positionPagination.lower = false;
+      break;
+    case "both":
+      positionPagination.upper = true;
+      positionPagination.lower = true;
+      break;
+  }
+};
+
 const emit = defineEmits<{
   "row-clicked": [item: any, index: number, event: MouseEvent];
   "cell-clicked": [item: any, index: number, event: MouseEvent];
@@ -107,17 +124,6 @@ const pagination = ref({
   previousPage: 1,
 });
 
-const handlerPositionPagination = () => {
-  switch (props.typeOfPagination) {
-    case "lower":
-      positionPagination.value.lower = true;
-      break;
-    case "upper":
-      positionPagination.value.upper = true;
-      positionPagination.value.lower = false;
-      break;
-  }
-};
 
 const handlerSort = (item: InternalHeader): void => {
   const result: { [key: string]: string } = {};
