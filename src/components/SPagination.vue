@@ -42,9 +42,9 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, ref, computed } from "vue";
+import { defineProps, ref, computed, watch } from "vue";
 
-const emit = defineEmits();
+const emit = defineEmits(['changePage', 'update:modelValue']);
 const MAX_PAGES = 5;
 
 const props = defineProps<{
@@ -55,7 +55,11 @@ const props = defineProps<{
   modelValue: object;
 }>();
 
-const currentPage = ref<number>(1);
+const currentPage = ref<number>(props.currentPage);
+
+watch(() => props.currentPage, (newValue) => {
+  currentPage.value = newValue;
+});
 
 const returnData = () => {
   let nextPage = currentPage.value + 1;
@@ -68,6 +72,7 @@ const returnData = () => {
     nextPage: nextPage,
     previousPage: previousPage,
   });
+  emit("changePage", currentPage.value);
 };
 
 const changePage = (pageNumber: number) => {
@@ -77,24 +82,29 @@ const changePage = (pageNumber: number) => {
 
 const goToFirstPage = () => {
   if (props.totalPages > 0) currentPage.value = 1;
-  returnData();
+    returnData();
+  
 };
 
 const gotoNextPage = () => {
   if (currentPage.value === props.totalPages) return;
   currentPage.value = currentPage.value + 1;
-  returnData();
+    returnData();
+  
 };
 
 const gotoPreviuosPage = () => {
   if (currentPage.value === 1) return;
   currentPage.value = currentPage.value - 1;
-  returnData();
+    returnData();
+  
 };
 
 const goToLastPage = () => {
-  currentPage.value = props.totalPages;
-  returnData();
+  if (props.totalPages > 0) {
+    currentPage.value = props.totalPages;
+    returnData();
+  }
 };
 
 const visiblePages = computed(() => {
@@ -102,13 +112,11 @@ const visiblePages = computed(() => {
   const currentPageV = currentPage.value;
   const result = [];
 
-  // Si hay menos páginas que MAX_PAGES, mostrar todas las páginas
   if (totalPages <= MAX_PAGES) {
     for (let i = 1; i <= totalPages; i++) {
       result.push(i);
     }
   } else {
-    // Si hay más páginas, mostrar MAX_PAGES páginas centradas en la página actual
     let startPage = Math.max(1, currentPageV - Math.floor(MAX_PAGES / 2));
     let endPage = Math.min(totalPages, startPage + MAX_PAGES - 1);
 
@@ -124,4 +132,3 @@ const visiblePages = computed(() => {
   return result;
 });
 </script>
-

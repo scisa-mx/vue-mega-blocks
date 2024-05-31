@@ -4,12 +4,13 @@
     :filters="props.filters"
   ></FilterContainer>
   <s-pagination
-    v-if="positionPagination.upper || positionPagination.both "
+  v-if="positionPagination.upper || positionPagination.both "
     :totalPages="props.pagination.totalPages"
     :currentPage="pagination.currentPage"
     :nextPage="pagination.nextPage"
     :previousPage="pagination.previousPage"
     v-model="pagination"
+    @changePage="changePage"
   ></s-pagination>
   <div class="overflow-x-auto overflow-y-hidden">
     <table
@@ -65,18 +66,19 @@
       </tbody>
     </table>
     <s-pagination
-      v-if="positionPagination.lower || positionPagination.both "
-      :totalPages="props.pagination.totalPages"
-      :currentPage="pagination.currentPage"
-      :nextPage="pagination.nextPage"
-      :previousPage="pagination.previousPage"
-      v-model="pagination"
-    ></s-pagination>
+    v-if="positionPagination.lower || positionPagination.both "
+    :totalPages="props.pagination.totalPages"
+    :currentPage="pagination.currentPage"
+    :nextPage="pagination.nextPage"
+    :previousPage="pagination.previousPage"
+    v-model="pagination"
+      @changePage="changePage"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch } from "vue";
+import { ref, onMounted, watch, computed } from "vue";
 import SPagination from "./ScsiaComponents/SPagination.vue";
 import FilterContainer from "../components/filters/FilterContainer.vue";
 
@@ -108,6 +110,8 @@ const handlerPositionPagination = () => {
 const emit = defineEmits<{
   "row-clicked": [item: any, index: number, event: MouseEvent];
   "cell-clicked": [item: any, index: number, event: MouseEvent];
+  pageChanged: [page: number];
+
   callback: [filters: any, pagination: any];
   sort: [sort: { [key: string]: string }];
 }>();
@@ -123,7 +127,6 @@ const pagination = ref({
   nextPage: 2,
   previousPage: 1,
 });
-
 
 const handlerSort = (item: InternalHeader): void => {
   const result: { [key: string]: string } = {};
@@ -167,6 +170,16 @@ const handlerFilters = (item: any) => {
   actionCallback();
 };
 
+const changePage = (page: number) => {
+  pagination.value.currentPage = page;
+  // Emitir evento si es necesario
+};
+
+// Computed property para devolver una nueva instancia de pagination
+const computedPagination = computed(() => ({
+  ...pagination.value,
+}));
+
 const actionCallback = async () => {
   try {
     emit("callback", filters.value, pagination.value);
@@ -177,6 +190,7 @@ onMounted(() => {
   stablishHeaders();
   stablshFitlers();
   handlerPositionPagination();
+  actionCallback();
 });
 
 watch(
@@ -186,6 +200,7 @@ watch(
   },
   { deep: true }
 );
+
 
 watch(
   pagination,
