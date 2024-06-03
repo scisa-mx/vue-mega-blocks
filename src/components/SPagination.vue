@@ -42,9 +42,9 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, ref, computed, watch } from "vue";
+import { defineProps, ref, computed, } from "vue";
 
-const emit = defineEmits(['changePage', 'update:modelValue']);
+const emit = defineEmits();
 const MAX_PAGES = 5;
 
 const props = defineProps<{
@@ -55,11 +55,7 @@ const props = defineProps<{
   modelValue: object;
 }>();
 
-const currentPage = ref<number>(props.currentPage);
-
-watch(() => props.currentPage, (newValue) => {
-  currentPage.value = newValue;
-});
+const currentPage = ref<number>(1);
 
 const returnData = () => {
   let nextPage = currentPage.value + 1;
@@ -72,7 +68,6 @@ const returnData = () => {
     nextPage: nextPage,
     previousPage: previousPage,
   });
-  emit("changePage", currentPage.value);
 };
 
 const changePage = (pageNumber: number) => {
@@ -101,10 +96,9 @@ const gotoPreviuosPage = () => {
 };
 
 const goToLastPage = () => {
-  if (props.totalPages > 0) {
     currentPage.value = props.totalPages;
     returnData();
-  }
+  
 };
 
 const visiblePages = computed(() => {

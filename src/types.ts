@@ -41,6 +41,8 @@ export interface LiteTable {
   striped: boolean;
   typeOfPagination?: "both" | "upper" | "lower"
   notFoundMsg: string;
+  updateCurrentPage: (page: number) => void;
+
 }
 
 

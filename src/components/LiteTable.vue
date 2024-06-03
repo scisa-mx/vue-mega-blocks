@@ -11,6 +11,10 @@
     :previousPage="pagination.previousPage"
     v-model="pagination"
     @changePage="changePage"
+    @update:pagination="updatePagination"
+
+
+    
   ></s-pagination>
   <div class="overflow-x-auto overflow-y-hidden">
     <table
@@ -72,7 +76,10 @@
     :nextPage="pagination.nextPage"
     :previousPage="pagination.previousPage"
     v-model="pagination"
-      @changePage="changePage"
+    @changePage="changePage"
+    @update:pagination="$emit('update:pagination', $event)"
+
+      
     />
   </div>
 </template>
@@ -110,12 +117,15 @@ const handlerPositionPagination = () => {
 const emit = defineEmits<{
   "row-clicked": [item: any, index: number, event: MouseEvent];
   "cell-clicked": [item: any, index: number, event: MouseEvent];
-  pageChanged: [page: number];
+  'update:pagination': [pagination: any];
+  
 
   callback: [filters: any, pagination: any];
   sort: [sort: { [key: string]: string }];
 }>();
 const props = defineProps<LiteTable>();
+
+
 
 const headers = ref<InternalHeader[]>([]);
 
@@ -172,13 +182,15 @@ const handlerFilters = (item: any) => {
 
 const changePage = (page: number) => {
   pagination.value.currentPage = page;
-  // Emitir evento si es necesario
+  pagination.value.nextPage = page + 1;
+  pagination.value.previousPage = page - 1;
+  emit('update:pagination', pagination.value);
 };
 
-// Computed property para devolver una nueva instancia de pagination
-const computedPagination = computed(() => ({
-  ...pagination.value,
-}));
+const updatePagination = (updatedPagination: any) => {
+  pagination.value = updatedPagination;
+};
+
 
 const actionCallback = async () => {
   try {
@@ -206,6 +218,18 @@ watch(
   pagination,
   async (_, __) => {
     await actionCallback();
+  },
+  { deep: true }
+);
+
+
+watch(
+  () => props.pagination,
+  (newPagination) => {
+    pagination.value.totalPages = newPagination.totalPages;
+    pagination.value.currentPage = Number(JSON.parse(JSON.stringify(newPagination.currentPage)));
+    pagination.value.nextPage = newPagination.currentPage + 1;
+    pagination.value.previousPage = newPagination.currentPage - 1;
   },
   { deep: true }
 );
